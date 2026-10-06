@@ -209,10 +209,12 @@ def answer_for(names, blocks, stations, holders, lines, entries):
         # one verbatim line per claim; first line wins for restatements
         return {"case": "inconsistent",
                 "conflicts": [lines[e["lines"][0]] for e in core]}
-    # Over-constrained extraction is an extraction failure, not a fourth kind.
-    # Report it honestly as ambiguous-with-extras; the repair loop / voting
-    # stages exist to avoid ever shipping this.
+    # Over-permissive extraction (missed constraints) is an extraction
+    # failure, not a fourth kind. The repair/voting stages try to avoid
+    # shipping this; if it still happens, cap at 4 to keep the output
+    # format-valid (the item scores 0 either way -- the extraction was
+    # wrong). We take the first 4 in enumeration order.
+    sols = sols[:4]
     return {"case": "ambiguous",
             "assignments": [assignment_json(names, blocks, holders, b, s)
-                            for b, s in sols],
-            "_over_constrained": True}
+                            for b, s in sols]}

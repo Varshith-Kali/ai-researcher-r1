@@ -155,9 +155,7 @@ def validated_repair(client, budget, item_id, names, blocks, stations,
 
 def answer_from_claims(names, blocks, stations, holders, lines, claims):
     entries = _entries(names, blocks, stations, holders, claims)
-    ans = csp.answer_for(names, blocks, stations, holders, lines, entries)
-    ans.pop("_over_constrained", None)
-    return ans
+    return csp.answer_for(names, blocks, stations, holders, lines, entries)
 
 
 # --------------------------------------------------------------------------- #
