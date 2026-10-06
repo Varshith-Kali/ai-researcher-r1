@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# Launcher for the shift-notes harness.
+# Usage: ./run <items.json> --budget <1x|3x|10x> --out <answers.json>
+set -euo pipefail
+exec python3 "$(dirname "$0")/src/main.py" "$@"
