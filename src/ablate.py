@@ -2,9 +2,11 @@
 """Ablation: each system component with and without, at each budget.
 
 Runs a fixed 12-item subset (4 of each kind) through two variants:
-  extract-only : single extraction call, no voting (the "without" arm)
-  shipped      : the submitted system -- 1 call at 1x, 3-call per-line
-                 majority at 3x, 10-call per-line majority at 10x
+  extract-only : single extraction call, symbolic solve, answer
+                 (the "without" arm: no repair, no voting)
+  shipped      : the submitted system -- 1 call at 1x; extraction +
+                 solver-validated repair at 3x; extraction + repair +
+                 per-line majority at 10x
 
 Usage:
     python3 src/ablate.py --items <items.json> --key <visible_key.json> \\
@@ -27,9 +29,10 @@ from src.pipeline import answer_from_claims, validated_repair  # noqa: E402
 from src.pipeline import _majority_decided  # noqa: E402
 from src import csp  # noqa: E402
 
-# fixed subset: 4 unique, 4 ambiguous, 4 inconsistent
-SUBSET = ["B2-002", "B2-007", "B2-011", "B2-016",
-          "B2-001", "B2-003", "B2-006", "B2-009",
+# fixed subset: 4 unique, 4 ambiguous, 4 inconsistent (verified against
+# visible_key.json)
+SUBSET = ["B2-002", "B2-007", "B2-011", "B2-009",
+          "B2-001", "B2-003", "B2-006", "B2-014",
           "B2-000", "B2-004", "B2-005", "B2-008"]
 
 

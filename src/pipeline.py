@@ -50,8 +50,9 @@ def solve_item_text(item_id, text, client, budget):
                                    claims), claims)
 
     if budget.budget == "3x":
-        # Extraction, then one solver-validated repair pass if the solution
-        # count is degenerate (0 or >4). Uses 1-2 calls.
+        # Extraction, then one solver-validated repair pass if the
+        # extraction admits more than 4 solutions (missed constraints).
+        # Uses 1-2 calls.
         claims = extract_once(client, budget, item_id,
                               names, blocks, stations, holders, lines)
         claims, _ = validated_repair(client, budget, item_id, names, blocks,
